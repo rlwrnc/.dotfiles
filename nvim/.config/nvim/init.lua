@@ -20,6 +20,7 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   { 'tpope/vim-sleuth' },
   { 'echasnovski/mini.nvim', version = false },
+  { 'neovim/nvim-lspconfig' },
   {
     'nvim-treesitter/nvim-treesitter',
     dependencies = {
@@ -61,6 +62,9 @@ require('mini.move').setup()
 require('mini.pairs').setup()
 require('mini.statusline').setup()
 require('mini.surround').setup()
+
+--   lsp setup
+require'lspconfig'.clangd.setup{}
 
 --   treesitter setup
 require('nvim-treesitter.configs').setup {
