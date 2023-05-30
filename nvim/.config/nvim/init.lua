@@ -1,11 +1,3 @@
--- custom nonsense
-function compile()
-  local buf = vim.api.nvim_get_current_buf()
-  local path = vim.api.nvim_buf_get_name(buf)
-  path = string.gsub(path, "/[^/]*$", "/build.sh")
-  vim.api.nvim_command("TermExec cmd="..path)
-end
-
 -- map leader key
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
@@ -79,7 +71,7 @@ require('nvim-treesitter.configs').setup {
 --   toggleterm setup
 require("toggleterm").setup {
   size = 20,
-  open_mapping = '<leader>t',
+  open_mapping = '<a-t>',
   insert_mappings = false
 }
 
@@ -98,5 +90,14 @@ vim.keymap.set('i', '<Tab>',   [[pumvisible() ? "\<C-n>" : "\<Tab>"]],   { expr 
 vim.keymap.set('i', '<S-Tab>', [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]], { expr = true })
 
 --   toggleterm
+--     compilation
+function compile()
+  local buf = vim.api.nvim_get_current_buf()
+  local path = vim.api.nvim_buf_get_name(buf)
+  path = string.gsub(path, "/[^/]*$", "/build.sh")
+  vim.api.nvim_command("TermExec cmd=clear")
+  vim.api.nvim_command("TermExec cmd="..path)
+end
 vim.keymap.set('n', '<leader>c', compile)
+--     toggle 
 vim.keymap.set('t', '<esc>', '<c-\\><c-n>')
