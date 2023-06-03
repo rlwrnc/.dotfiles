@@ -64,7 +64,12 @@ require('mini.statusline').setup()
 require('mini.surround').setup()
 
 --   lsp setup
-require'lspconfig'.clangd.setup{}
+require'lspconfig'.clangd.setup{
+  cmd = {
+    'clangd',
+    '-header-insertion=never'
+  }
+}
 
 --   treesitter setup
 require('nvim-treesitter.configs').setup {
@@ -105,3 +110,13 @@ end
 vim.keymap.set('n', '<leader>c', compile)
 --     toggle 
 vim.keymap.set('t', '<esc>', '<c-\\><c-n>')
+
+-- auto save folds
+local folds = vim.api.nvim_create_augroup("remember_folds", { clear = true })
+vim.api.nvim_create_autocmd("BufWinLeave", {
+  command = "mkview",
+  group = folds,
+})
+vim.api.nvim_create_autocmd("BufWinEnter", {
+  command = "silent! loadview"
+})
