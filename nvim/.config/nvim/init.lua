@@ -104,11 +104,13 @@ function compile()
   local buf = vim.api.nvim_get_current_buf()
   local path = vim.api.nvim_buf_get_name(buf)
   if (vim.loop.os_uname().sysname == "Windows_NT") then
-    path = string.gsub(path, "/[^/]*$", "\\build.bat")
+    path = string.gsub(path, "\\[^\\]*$", "\\build.bat")
+    print(path)
+    vim.api.nvim_command("TermExec cmd=cls")
   else
     path = string.gsub(path, "/[^/]*$", "/build.sh")
+    vim.api.nvim_command("TermExec cmd=clear")
   end
-  vim.api.nvim_command("TermExec cmd=clear")
   vim.api.nvim_command("TermExec cmd="..path)
 end
 vim.keymap.set('n', '<leader>c', compile)
