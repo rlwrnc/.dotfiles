@@ -103,7 +103,11 @@ vim.keymap.set('i', '<S-Tab>', [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]], { expr 
 function compile()
   local buf = vim.api.nvim_get_current_buf()
   local path = vim.api.nvim_buf_get_name(buf)
-  path = string.gsub(path, "/[^/]*$", "/build.sh")
+  if (vim.loop.os_uname().sysname == "Windows_NT") then
+    path = string.gsub(path, "/[^/]*$", "\\build.bat")
+  else
+    path = string.gsub(path, "/[^/]*$", "/build.sh")
+  end
   vim.api.nvim_command("TermExec cmd=clear")
   vim.api.nvim_command("TermExec cmd="..path)
 end
