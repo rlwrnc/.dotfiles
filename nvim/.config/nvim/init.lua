@@ -28,6 +28,10 @@ require('lazy').setup({
     },
     build = ':TSUpdate'
   },
+  {
+    'nvim-telescope/telescope.nvim', tag='0.1.1',
+    dependencies = { 'nvim-lua/plenary.nvim' },
+  },
   { 'akinsho/toggleterm.nvim', version = '*', config = true }
 })
 
@@ -97,6 +101,13 @@ vim.keymap.set('n', '<c-l>', '<c-w>l')
 --   tab for autocompletion
 vim.keymap.set('i', '<Tab>',   [[pumvisible() ? "\<C-n>" : "\<Tab>"]],   { expr = true })
 vim.keymap.set('i', '<S-Tab>', [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]], { expr = true })
+
+--   telescope
+local builtin = require('telescope.builtin')
+vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
+vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
+vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
+vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 
 --   toggleterm
 --     compilation
