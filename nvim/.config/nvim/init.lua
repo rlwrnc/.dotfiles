@@ -131,9 +131,10 @@ vim.keymap.set('t', '<esc>', '<c-\\><c-n>')
 -- auto save folds
 local folds = vim.api.nvim_create_augroup("remember_folds", { clear = true })
 vim.api.nvim_create_autocmd("BufWinLeave", {
-  command = "mkview",
+  command = "silent! mkview",
   group = folds,
 })
 vim.api.nvim_create_autocmd("BufWinEnter", {
-  command = "silent! loadview"
+  command = "silent! loadview",
+  group = folds
 })
