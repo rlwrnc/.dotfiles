@@ -32,13 +32,11 @@ require('lazy').setup({
     'nvim-telescope/telescope.nvim', tag='0.1.1',
     dependencies = { 'nvim-lua/plenary.nvim' },
   },
-  { 'akinsho/toggleterm.nvim', version = '*', config = true }
+  { 'akinsho/toggleterm.nvim', version = '*', config = true },
 })
 
--- set up plugins
---   mini setup
-require('mini.base16').setup({
-  palette = {
+local palettes = {
+  old = {
     base00 = "#181818",
     base01 = "#282828",
     base02 = "#383838",
@@ -56,6 +54,30 @@ require('mini.base16').setup({
     base0E = "#ba8baf",
     base0F = "#a16946",
   },
+  solarized = {
+    base00 = "#002b36",
+    base01 = "#073642",
+    base02 = "#33515b",
+    base03 = "#586e75",
+    base04 = "#657b83",
+    base05 = "#839496",
+    base06 = "#93a1a1",
+    base07 = "#fdf6e3",
+    base08 = "#dc322f",
+    base09 = "#cb4b16",
+    base0A = "#b58900",
+    base0B = "#859900",
+    base0C = "#2aa198",
+    base0D = "#268bd2",
+    base0E = "#6c71c4",
+    base0F = "#d33682",
+  }
+}
+
+-- set up plugins
+--   mini setup
+require('mini.base16').setup({
+  palette = palettes['solarized']
 })
 require('mini.basics').setup()
 require('mini.comment').setup()
@@ -116,13 +138,13 @@ function compile()
   local path = vim.api.nvim_buf_get_name(buf)
   if (vim.loop.os_uname().sysname == "Windows_NT") then
     path = string.gsub(path, "\\[^\\]*$", "\\build.bat")
-    print(path)
-    vim.api.nvim_command("TermExec cmd=cls")
+    -- vim.api.nvim_command("TermExec cmd=cls")
   else
     path = string.gsub(path, "/[^/]*$", "/build.sh")
     vim.api.nvim_command("TermExec cmd=clear")
   end
-  vim.api.nvim_command("TermExec cmd="..path)
+  -- vim.api.nvim_command("TermExec cmd="..path)
+  vim.api.nvim_command("!"..path)
 end
 vim.keymap.set('n', '<leader>c', compile)
 --     toggle 
