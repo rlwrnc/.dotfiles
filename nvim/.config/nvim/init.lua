@@ -97,6 +97,8 @@ require'lspconfig'.clangd.setup{
   }
 }
 
+require'lspconfig'.ols.setup{}
+
 --   treesitter setup
 require('nvim-treesitter.configs').setup {
   ensure_installed = { 'c', 'cpp', 'lua' },
@@ -159,4 +161,10 @@ vim.api.nvim_create_autocmd("BufWinLeave", {
 vim.api.nvim_create_autocmd("BufWinEnter", {
   command = "silent! loadview",
   group = folds
+})
+
+-- set c-style indenting for unrecognized c-like langs
+vim.api.nvim_create_autocmd("BufEnter", {
+  pattern = {"*.odin", "*.glsl"},
+  command = "setlocal cindent",
 })
