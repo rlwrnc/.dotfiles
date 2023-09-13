@@ -36,7 +36,7 @@ require('lazy').setup({
 })
 
 local palettes = {
-  old = {
+  tomorrow_night = {
     base00 = "#181818",
     base01 = "#282828",
     base02 = "#383838",
@@ -71,13 +71,31 @@ local palettes = {
     base0D = "#268bd2",
     base0E = "#6c71c4",
     base0F = "#d33682",
+  },
+  gruvbox_pale = {
+    base00 = "#262626",
+    base01 = "#3a3a3a",
+    base02 = "#4e4e4e",
+    base03 = "#8a8a8a",
+    base04 = "#949494",
+    base05 = "#dab997",
+    base06 = "#d5c4a1",
+    base07 = "#ebdbb2",
+    base08 = "#d75f5f",
+    base09 = "#ff8700",
+    base0A = "#ffaf00",
+    base0B = "#afaf00",
+    base0C = "#85ad85",
+    base0D = "#83adad",
+    base0E = "#d485ad",
+    base0F = "#d65d0e",
   }
 }
 
 -- set up plugins
 --   mini setup
 require('mini.base16').setup({
-  palette = palettes['solarized']
+  palette = palettes['gruvbox_pale']
 })
 require('mini.basics').setup()
 require('mini.comment').setup()
@@ -95,6 +113,29 @@ require'lspconfig'.clangd.setup{
     'clangd',
     '-header-insertion=never'
   }
+}
+
+require'lspconfig'.lua_ls.setup {
+  settings = {
+    Lua = {
+      runtime = {
+        -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+        version = 'LuaJIT',
+      },
+      diagnostics = {
+        -- Get the language server to recognize the `vim` global
+        globals = {'vim'},
+      },
+      workspace = {
+        -- Make the server aware of Neovim runtime files
+        library = vim.api.nvim_get_runtime_file("", true),
+      },
+      -- Do not send telemetry data containing a randomized but unique identifier
+      telemetry = {
+        enable = false,
+      },
+    },
+  },
 }
 
 require'lspconfig'.ols.setup{}
@@ -127,6 +168,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 require('nvim-treesitter.configs').setup {
   ensure_installed = { 'c', 'cpp', 'lua' },
   highlight = { enable = true },
+  indent = { enable = true }
 }
 
 --   toggleterm setup
@@ -146,6 +188,9 @@ vim.keymap.set('n', '<c-j>', '<c-w>j')
 vim.keymap.set('n', '<c-k>', '<c-w>k')
 vim.keymap.set('n', '<c-l>', '<c-w>l')
 
+vim.keymap.set('n', '<c-u>', '<c-u>zz')
+vim.keymap.set('n', '<c-d>', '<c-d>zz')
+
 --   tab for autocompletion
 vim.keymap.set('i', '<Tab>',   [[pumvisible() ? "\<C-n>" : "\<Tab>"]],   { expr = true })
 vim.keymap.set('i', '<S-Tab>', [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]], { expr = true })
@@ -159,20 +204,25 @@ vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 
 --   toggleterm
 --     compilation
-function compile()
+function build()
   local buf = vim.api.nvim_get_current_buf()
   local path = vim.api.nvim_buf_get_name(buf)
   if (vim.loop.os_uname().sysname == "Windows_NT") then
-    path = string.gsub(path, "\\[^\\]*$", "\\build.bat")
+    path, count = string.gsub(path, "\\[^\\]*$", "\\build.bat")
+    print(path)
     -- vim.api.nvim_command("TermExec cmd=cls")
   else
     path = string.gsub(path, "/[^/]*$", "/build.sh")
     vim.api.nvim_command("TermExec cmd=clear")
   end
   -- vim.api.nvim_command("TermExec cmd="..path)
-  vim.api.nvim_command("!"..path)
+  if (count ~= 0) then
+    vim.api.nvim_command("!"..path)
+  else
+    print("ERROR "..path)
+  end
 end
-vim.keymap.set('n', '<leader>c', compile)
+vim.keymap.set('n', '<leader>b', build)
 --     toggle 
 vim.keymap.set('t', '<esc>', '<c-\\><c-n>')
 
@@ -192,3 +242,10 @@ vim.api.nvim_create_autocmd("BufEnter", {
   pattern = {"*.odin", "*.glsl"},
   command = "setlocal cindent",
 })
+
+if vim.g.neovide then
+  vim.o.guifont = "DroidSansM Nerd Font Mono:h16"
+  vim.g.neovide_refresh_rate = 165
+  vim.g.neovide_cursor_animation_length = 0.0
+  vim.g.neovide_cursor_trail_size = 0.25
+end
