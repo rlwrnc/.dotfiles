@@ -29,7 +29,7 @@ require('lazy').setup({
     build = ':TSUpdate'
   },
   {
-    'nvim-telescope/telescope.nvim', tag='0.1.1',
+    'nvim-telescope/telescope.nvim', branch='0.1.x',
     dependencies = { 'nvim-lua/plenary.nvim' },
   },
   { 'akinsho/toggleterm.nvim', version = '*', config = true },
@@ -222,7 +222,7 @@ function build()
     print("ERROR "..path)
   end
 end
-vim.keymap.set('n', '<leader>b', build)
+vim.keymap.set('n', '<leader>b', function() vim.api.nvim_command("make") end)
 --     toggle 
 vim.keymap.set('t', '<esc>', '<c-\\><c-n>')
 
