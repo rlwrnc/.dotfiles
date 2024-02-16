@@ -19,6 +19,7 @@ vim.opt.rtp:prepend(lazypath)
 -- install plugins
 require('lazy').setup({
   { 'tpope/vim-sleuth' },
+  { 'tpope/vim-fugitive' },
   { 'echasnovski/mini.nvim', version = false },
   { 'neovim/nvim-lspconfig' },
   {
@@ -188,8 +189,12 @@ vim.keymap.set('n', '<c-l>', '<c-w>l')
 vim.keymap.set('n', '<c-u>', '<c-u>zz')
 vim.keymap.set('n', '<c-d>', '<c-d>zz')
 
---   blame line
+--   git 
 vim.keymap.set('n', '<leader>gb', function() vim.api.nvim_command("SingleBlameLine") end)
+vim.keymap.set('n', '<leader>gs', '<CMD>Git status<CR>')
+vim.keymap.set('n', '<leader>gc', '<CMD>Git commit<CR>')
+vim.keymap.set('n', '<leader>ga', '<CMD>Gwrite<CR>')
+vim.keymap.set('n', '<leader>gd', '<CMD>Gvdiffsplit<CR>')
 
 --   tab for autocompletion
 vim.keymap.set('i', '<Tab>',   [[pumvisible() ? "\<C-n>" : "\<Tab>"]],   { expr = true })
