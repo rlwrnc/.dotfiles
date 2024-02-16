@@ -32,7 +32,8 @@ require('lazy').setup({
     'nvim-telescope/telescope.nvim', branch='0.1.x',
     dependencies = { 'nvim-lua/plenary.nvim' },
   },
-  { 'akinsho/toggleterm.nvim', version = '*', config = true },
+  { 'lewis6991/gitsigns.nvim' },
+  { 'tveskag/nvim-blame-line' }
 })
 
 local palettes = {
@@ -171,14 +172,10 @@ require('nvim-treesitter.configs').setup {
   indent = { enable = true }
 }
 
---   toggleterm setup
-require("toggleterm").setup {
-  size = 20,
-  open_mapping = '<a-t>',
-  insert_mappings = false
-}
+require('gitsigns').setup()
 
 -- options
+vim.opt.number = true
 vim.opt.relativenumber = true
 
 -- keymaps
@@ -191,6 +188,9 @@ vim.keymap.set('n', '<c-l>', '<c-w>l')
 vim.keymap.set('n', '<c-u>', '<c-u>zz')
 vim.keymap.set('n', '<c-d>', '<c-d>zz')
 
+--   blame line
+vim.keymap.set('n', '<leader>gb', function() vim.api.nvim_command("SingleBlameLine") end)
+
 --   tab for autocompletion
 vim.keymap.set('i', '<Tab>',   [[pumvisible() ? "\<C-n>" : "\<Tab>"]],   { expr = true })
 vim.keymap.set('i', '<S-Tab>', [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]], { expr = true })
@@ -202,29 +202,7 @@ vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
 vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 
---   toggleterm
---     compilation
-function build()
-  local buf = vim.api.nvim_get_current_buf()
-  local path = vim.api.nvim_buf_get_name(buf)
-  if (vim.loop.os_uname().sysname == "Windows_NT") then
-    path, count = string.gsub(path, "\\[^\\]*$", "\\build.bat")
-    print(path)
-    -- vim.api.nvim_command("TermExec cmd=cls")
-  else
-    path = string.gsub(path, "/[^/]*$", "/build.sh")
-    vim.api.nvim_command("TermExec cmd=clear")
-  end
-  -- vim.api.nvim_command("TermExec cmd="..path)
-  if (count ~= 0) then
-    vim.api.nvim_command("!"..path)
-  else
-    print("ERROR "..path)
-  end
-end
 vim.keymap.set('n', '<leader>b', function() vim.api.nvim_command("make") end)
---     toggle 
-vim.keymap.set('t', '<esc>', '<c-\\><c-n>')
 
 -- auto save folds
 local folds = vim.api.nvim_create_augroup("remember_folds", { clear = true })
