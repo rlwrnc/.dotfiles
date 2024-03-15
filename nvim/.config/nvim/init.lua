@@ -178,6 +178,8 @@ require('gitsigns').setup()
 -- options
 vim.opt.number = true
 vim.opt.relativenumber = true
+vim.opt.autoread = true
+vim.opt.clipboard = 'unnamedplus'
 
 -- keymaps
 --   navigation
