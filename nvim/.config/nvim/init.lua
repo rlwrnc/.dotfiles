@@ -34,8 +34,14 @@ require('lazy').setup({
     dependencies = { 'nvim-lua/plenary.nvim' },
   },
   { 'lewis6991/gitsigns.nvim' },
-  { 'tveskag/nvim-blame-line' }
+  { 'tveskag/nvim-blame-line' },
+  {
+    'folke/todo-comments.nvim',
+    dependencies = { 'nvim-lua/plenary.nvim' },
+  }
 })
+
+require('todo')
 
 local palettes = {
   tomorrow_night = {
@@ -93,6 +99,8 @@ local palettes = {
     base0F = "#d65d0e",
   }
 }
+
+require('todo')
 
 -- set up plugins
 --   mini setup
@@ -208,6 +216,7 @@ vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
 vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
+vim.keymap.set('n', '<leader>ft', '<CMD>TodoTelescope<CR>')
 
 vim.keymap.set('n', '<leader>b', function() vim.api.nvim_command("make") end)
 
