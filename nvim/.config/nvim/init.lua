@@ -62,6 +62,14 @@ require('lazy').setup({
         pattern = [[\b(KEYWORDS)(\(.*\))?:]]
       },
     }
+  },
+  {
+    'stevearc/oil.nvim',
+    opts = {
+      view_options = {
+        show_hidden = true
+      }
+    },
   }
 })
 
@@ -141,7 +149,8 @@ require('mini.surround').setup()
 require'lspconfig'.clangd.setup{
   cmd = {
     'clangd',
-    '-header-insertion=never'
+    '-header-insertion=never',
+    '--enable-config'
   }
 }
 
@@ -153,7 +162,7 @@ require'lspconfig'.lua_ls.setup {
         version = 'LuaJIT',
       },
       diagnostics = {
-        -- Get the language server to recognize the `vim` global
+        -- Get the language server to recognize the `vim` globals
         globals = {'vim'},
       },
       workspace = {
@@ -169,6 +178,8 @@ require'lspconfig'.lua_ls.setup {
 }
 
 require'lspconfig'.ols.setup{}
+
+require'lspconfig'.cmake.setup{}
 
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('rlwrnc', {}),
@@ -188,7 +199,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
     vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, opts)
     vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-    vim.keymap.set('n', '<space>f', function()
+    vim.keymap.set('n', '<leader>fo', function()
       vim.lsp.buf.format { async = true }
     end, opts)
   end,
@@ -239,6 +250,8 @@ vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 vim.keymap.set('n', '<leader>ft', '<CMD>TodoTelescope<CR>')
 
 vim.keymap.set('n', '<leader>b', function() vim.api.nvim_command("make") end)
+
+vim.keymap.set('n', '<leader>o', '<CMD>Oil<CR>')
 
 -- auto save folds
 local folds = vim.api.nvim_create_augroup("remember_folds", { clear = true })
