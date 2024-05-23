@@ -36,6 +36,14 @@ require('lazy').setup({
   { 'lewis6991/gitsigns.nvim' },
   { 'tveskag/nvim-blame-line' },
   {
+    '/sainnhe/gruvbox-material',
+    lazy = false,
+    priority = 1000,
+    config = function()
+      vim.cmd.colorscheme('gruvbox-material')
+    end
+  },
+  {
     'folke/todo-comments.nvim',
     dependencies = { 'nvim-lua/plenary.nvim' },
     opts = {
@@ -132,9 +140,9 @@ local palettes = {
 
 -- set up plugins
 --   mini setup
-require('mini.base16').setup({
-  palette = palettes['gruvbox_pale']
-})
+-- require('mini.base16').setup({
+--   palette = palettes['gruvbox_pale']
+-- })
 require('mini.basics').setup()
 require('mini.comment').setup()
 require('mini.completion').setup()
