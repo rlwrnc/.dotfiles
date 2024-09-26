@@ -36,7 +36,7 @@ require('lazy').setup({
   { 'lewis6991/gitsigns.nvim' },
   { 'tveskag/nvim-blame-line' },
   {
-    '/sainnhe/gruvbox-material',
+    'sainnhe/gruvbox-material',
     lazy = false,
     priority = 1000,
     config = function()
@@ -150,7 +150,7 @@ require('mini.cursorword').setup()
 require('mini.fuzzy').setup()
 require('mini.move').setup()
 require('mini.pairs').setup()
-require('mini.statusline').setup()
+-- require('mini.statusline').setup()
 require('mini.surround').setup()
 
 --   lsp setup
@@ -189,6 +189,8 @@ require'lspconfig'.ols.setup{}
 
 require'lspconfig'.cmake.setup{}
 
+require'lspconfig'.pylsp.setup{}
+
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('rlwrnc', {}),
   callback = function(ev)
@@ -225,8 +227,26 @@ require('gitsigns').setup()
 -- options
 vim.opt.number = true
 vim.opt.relativenumber = true
-vim.opt.autoread = true
 vim.opt.clipboard = 'unnamedplus'
+
+vim.opt.exrc = true
+vim.opt.secure = true
+
+-- buffer autoload
+vim.api.nvim_create_autocmd({'FocusGained', 'BufEnter'}, {
+  pattern = '*',
+  command = 'silent! !'
+})
+
+vim.api.nvim_create_autocmd({'FocusLost', 'WinLeave'}, {
+  pattern = '*',
+  command = 'silent! noautocmd w'
+})
+
+vim.api.nvim_create_autocmd({'FileChangedShellPost'}, {
+  pattern = '*',
+  command = "echohl WarningMsg | echo 'File changed on disk. Buffer reloaded.' | echohl None",
+})
 
 -- keymaps
 --   navigation
@@ -237,6 +257,10 @@ vim.keymap.set('n', '<c-l>', '<c-w>l')
 
 vim.keymap.set('n', '<c-u>', '<c-u>zz')
 vim.keymap.set('n', '<c-d>', '<c-d>zz')
+
+vim.keymap.set('n', '<leader>r', function()
+  vim.o.relativenumber = not vim.o.relativenumber
+end)
 
 --   git 
 vim.keymap.set('n', '<leader>gb', function() vim.api.nvim_command("SingleBlameLine") end)
