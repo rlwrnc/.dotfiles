@@ -12,6 +12,8 @@ end
 
 if status is-interactive
     fish_user_key_bindings
-    bind \ef 'workspaces.fish; commandline -f repaint'
+    bind -M insert \ef 'workspaces.fish; commandline -f repaint'
     bind --preset -M insert \cF accept-autosuggestion
+
+    
 end
