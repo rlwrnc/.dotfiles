@@ -20,6 +20,7 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   { 'tpope/vim-sleuth' },
   { 'tpope/vim-fugitive' },
+  { 'tpope/vim-abolish' },
   { 'echasnovski/mini.nvim', version = false },
   { 'neovim/nvim-lspconfig' },
   {
@@ -40,6 +41,9 @@ require('lazy').setup({
     lazy = false,
     priority = 1000,
     config = function()
+      vim.g.gruvbox_material_background = 'hard'
+      vim.g.gruvbox_material_foreground = 'material'
+      vim.opt.termguicolors = true
       vim.cmd.colorscheme('gruvbox-material')
     end
   },
@@ -81,68 +85,8 @@ require('lazy').setup({
   }
 })
 
-local palettes = {
-  tomorrow_night = {
-    base00 = "#181818",
-    base01 = "#282828",
-    base02 = "#383838",
-    base03 = "#585858",
-    base04 = "#b8b8b8",
-    base05 = "#d8d8d8",
-    base06 = "#e8e8e8",
-    base07 = "#f8f8f8",
-    base08 = "#ab4642",
-    base09 = "#dc9656",
-    base0A = "#f7ca88",
-    base0B = "#a1b56c",
-    base0C = "#86c1b9",
-    base0D = "#7cafc2",
-    base0E = "#ba8baf",
-    base0F = "#a16946",
-  },
-  solarized = {
-    base00 = "#002b36",
-    base01 = "#073642",
-    base02 = "#33515b",
-    base03 = "#586e75",
-    base04 = "#657b83",
-    base05 = "#839496",
-    base06 = "#93a1a1",
-    base07 = "#fdf6e3",
-    base08 = "#dc322f",
-    base09 = "#cb4b16",
-    base0A = "#b58900",
-    base0B = "#859900",
-    base0C = "#2aa198",
-    base0D = "#268bd2",
-    base0E = "#6c71c4",
-    base0F = "#d33682",
-  },
-  gruvbox_pale = {
-    base00 = "#262626",
-    base01 = "#3a3a3a",
-    base02 = "#4e4e4e",
-    base03 = "#8a8a8a",
-    base04 = "#949494",
-    base05 = "#dab997",
-    base06 = "#d5c4a1",
-    base07 = "#ebdbb2",
-    base08 = "#d75f5f",
-    base09 = "#ff8700",
-    base0A = "#ffaf00",
-    base0B = "#afaf00",
-    base0C = "#85ad85",
-    base0D = "#83adad",
-    base0E = "#d485ad",
-    base0F = "#d65d0e",
-  }
-}
-
 -- set up plugins
 --   mini setup
--- require('mini.base16').setup({
---   palette = palettes['gruvbox_pale']
--- })
 require('mini.basics').setup()
 require('mini.comment').setup()
 require('mini.completion').setup()
@@ -150,7 +94,6 @@ require('mini.cursorword').setup()
 require('mini.fuzzy').setup()
 require('mini.move').setup()
 require('mini.pairs').setup()
--- require('mini.statusline').setup()
 require('mini.surround').setup()
 
 --   lsp setup
@@ -189,7 +132,35 @@ require'lspconfig'.ols.setup{}
 
 require'lspconfig'.cmake.setup{}
 
-require'lspconfig'.pylsp.setup{}
+require'lspconfig'.pyright.setup{
+  settings = {
+    pyright = {
+      disableOrganizeImports = true,
+    },
+    python = {
+      analysis = {
+        ignore = { '*' },
+      },
+    },
+  },
+}
+
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = vim.api.nvim_create_augroup('lsp_attach_disable_ruff_hover', { clear = true }),
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if client == nil then
+      return
+    end
+    if client.name == 'ruff' then
+      -- Disable hover in favor of Pyright
+      client.server_capabilities.hoverProvider = false
+    end
+  end,
+  desc = 'LSP: Disable hover capability from Ruff',
+})
+
+require'lspconfig'.ruff.setup{}
 
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('rlwrnc', {}),
