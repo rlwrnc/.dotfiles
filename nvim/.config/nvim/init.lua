@@ -177,7 +177,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
       print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
     end, opts)
     vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
-    vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
+    vim.keymap.set('n', '<space>n', vim.lsp.buf.rename, opts)
     vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, opts)
     vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
     vim.keymap.set('n', '<leader>fo', function()
@@ -229,9 +229,12 @@ vim.keymap.set('n', '<c-l>', '<c-w>l')
 vim.keymap.set('n', '<c-u>', '<c-u>zz')
 vim.keymap.set('n', '<c-d>', '<c-d>zz')
 
-vim.keymap.set('n', '<leader>r', function()
+vim.keymap.set('n', '<leader>l', function()
   vim.o.relativenumber = not vim.o.relativenumber
 end)
+
+vim.keymap.set('n', '<leader>m', '<c-w>|')
+vim.keymap.set('n', '<leader>r', '<c-w>=')
 
 --   git 
 vim.keymap.set('n', '<leader>gb', function() vim.api.nvim_command("SingleBlameLine") end)
