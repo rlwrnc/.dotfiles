@@ -233,6 +233,9 @@ vim.keymap.set('n', '<leader>r', function()
   vim.o.relativenumber = not vim.o.relativenumber
 end)
 
+vim.keymap.set('n', '<leader>m', '<c-w>|')
+vim.keymap.set('n', '<leader>=', '<c-w>=')
+
 --   git 
 vim.keymap.set('n', '<leader>gb', function() vim.api.nvim_command("SingleBlameLine") end)
 vim.keymap.set('n', '<leader>gs', '<CMD>Git status<CR>')
