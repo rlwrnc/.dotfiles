@@ -67,7 +67,7 @@ require('lazy').setup({
         after = "",
         pattern = {
           [[.*(KEYWORDS)\s*:]],
-          [[.*(KEYWORDS)(.*)\s*:]]
+          [[.*(KEYWORDS)\(.*\)\s*:]]
         },
       },
       search = {
@@ -255,7 +255,7 @@ vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 vim.keymap.set('n', '<leader>ft', '<CMD>TodoTelescope<CR>')
 
-vim.keymap.set('n', '<leader>b', function() vim.api.nvim_command("make") end)
+vim.keymap.set('n', '<leader>b', function() vim.api.nvim_command("make!") end)
 
 vim.keymap.set('n', '<leader>o', '<CMD>Oil<CR>')
 
