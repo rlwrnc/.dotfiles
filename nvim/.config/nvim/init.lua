@@ -31,7 +31,8 @@ require('lazy').setup({
     build = ':TSUpdate'
   },
   {
-    'nvim-telescope/telescope.nvim', branch='0.1.x',
+    'nvim-telescope/telescope.nvim',
+    branch = '0.1.x',
     dependencies = { 'nvim-lua/plenary.nvim' },
   },
   { 'lewis6991/gitsigns.nvim' },
@@ -52,7 +53,7 @@ require('lazy').setup({
     dependencies = { 'nvim-lua/plenary.nvim' },
     opts = {
       signs = false,
-      keywords = { 
+      keywords = {
         FIX = { icon = "#", color = "error", alt = { "FIXME", "BUG", "FIXIT", "ISSUE" }, },
         TODO = { icon = ">", color = "info" },
         HACK = { icon = "?", color = "warning" },
@@ -99,7 +100,7 @@ require('mini.statusline').setup()
 require('mini.tabline').setup({ set_vim_settings = false })
 
 --   lsp setup
-require'lspconfig'.clangd.setup{
+require 'lspconfig'.clangd.setup {
   cmd = {
     'clangd',
     '-header-insertion=never',
@@ -107,7 +108,7 @@ require'lspconfig'.clangd.setup{
   }
 }
 
-require'lspconfig'.lua_ls.setup {
+require 'lspconfig'.lua_ls.setup {
   settings = {
     Lua = {
       runtime = {
@@ -116,7 +117,7 @@ require'lspconfig'.lua_ls.setup {
       },
       diagnostics = {
         -- Get the language server to recognize the `vim` globals
-        globals = {'vim'},
+        globals = { 'vim' },
       },
       workspace = {
         -- Make the server aware of Neovim runtime files
@@ -130,11 +131,11 @@ require'lspconfig'.lua_ls.setup {
   },
 }
 
-require'lspconfig'.ols.setup{}
+require 'lspconfig'.ols.setup {}
 
-require'lspconfig'.cmake.setup{}
+require 'lspconfig'.cmake.setup {}
 
-require'lspconfig'.pyright.setup{
+require 'lspconfig'.pyright.setup {
   settings = {
     pyright = {
       disableOrganizeImports = true,
@@ -162,13 +163,13 @@ vim.api.nvim_create_autocmd("LspAttach", {
   desc = 'LSP: Disable hover capability from Ruff',
 })
 
-require'lspconfig'.ruff.setup{}
+require 'lspconfig'.ruff.setup {}
 
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('rlwrnc', {}),
   callback = function(ev)
     local opts = { buffer = ev.buf }
-        vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
     vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
@@ -205,18 +206,20 @@ vim.opt.clipboard = 'unnamedplus'
 vim.opt.exrc = true
 vim.opt.secure = true
 
+vim.opt.autochdir = false
+
 -- buffer autoload
-vim.api.nvim_create_autocmd({'FocusGained', 'BufEnter'}, {
+vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter' }, {
   pattern = '*',
   command = 'silent! !'
 })
 
-vim.api.nvim_create_autocmd({'FocusLost', 'WinLeave'}, {
+vim.api.nvim_create_autocmd({ 'FocusLost', 'WinLeave' }, {
   pattern = '*',
   command = 'silent! noautocmd w'
 })
 
-vim.api.nvim_create_autocmd({'FileChangedShellPost'}, {
+vim.api.nvim_create_autocmd({ 'FileChangedShellPost' }, {
   pattern = '*',
   command = "echohl WarningMsg | echo 'File changed on disk. Buffer reloaded.' | echohl None",
 })
@@ -238,7 +241,7 @@ end)
 vim.keymap.set('n', '<leader>m', '<c-w>|')
 vim.keymap.set('n', '<leader>r', '<c-w>=')
 
---   git 
+--   git
 vim.keymap.set('n', '<leader>gb', function() vim.api.nvim_command("SingleBlameLine") end)
 vim.keymap.set('n', '<leader>gs', '<CMD>Git status<CR>')
 vim.keymap.set('n', '<leader>gc', '<CMD>Git commit<CR>')
@@ -246,7 +249,7 @@ vim.keymap.set('n', '<leader>ga', '<CMD>Gwrite<CR>')
 vim.keymap.set('n', '<leader>gd', '<CMD>Gvdiffsplit<CR>')
 
 --   tab for autocompletion
-vim.keymap.set('i', '<Tab>',   [[pumvisible() ? "\<C-n>" : "\<Tab>"]],   { expr = true })
+vim.keymap.set('i', '<Tab>', [[pumvisible() ? "\<C-n>" : "\<Tab>"]], { expr = true })
 vim.keymap.set('i', '<S-Tab>', [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]], { expr = true })
 
 --   telescope
@@ -255,6 +258,7 @@ vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
 vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
+vim.keymap.set('n', '<leader>fd', builtin.diagnostics, {})
 vim.keymap.set('n', '<leader>ft', '<CMD>TodoTelescope<CR>')
 
 vim.keymap.set('n', '<leader>b', function() vim.api.nvim_command("make!") end)
@@ -274,7 +278,7 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
 
 -- set c-style indenting for unrecognized c-like langs
 vim.api.nvim_create_autocmd("BufEnter", {
-  pattern = {"*.odin", "*.glsl"},
+  pattern = { "*.odin", "*.glsl" },
   command = "setlocal cindent",
 })
 
@@ -284,3 +288,5 @@ if vim.g.neovide then
   vim.g.neovide_cursor_animation_length = 0.0
   vim.g.neovide_cursor_trail_size = 0.25
 end
+
+require("root")
