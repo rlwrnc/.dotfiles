@@ -7,7 +7,7 @@ function fish_user_key_bindings
     # resetting all bindings.
 
     # The argument specifies the initial mode (insert, "default" or visual).
-    set -g fish_key_bindings fish_vi_key_bindings
+    fish_vi_key_bindings --no-erase insert
 end
 
 if status is-interactive
