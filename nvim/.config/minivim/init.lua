@@ -6,9 +6,6 @@ require("plugins")  -- plugin installation and configuration
 require("keymaps")  -- set keymaps
 require("autocmds") -- setup autocmds
 
-local language_servers = { "clangd", "pyright", "ruff" }
-vim.lsp.enable(language_servers)
-
 if vim.g.neovide then
   vim.o.guifont = "DroidSansM Nerd Font Mono:h16"
   vim.g.neovide_refresh_rate = 165

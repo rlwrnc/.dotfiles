@@ -20,7 +20,6 @@ require("mini.fuzzy").setup()
 require("mini.move").setup()
 require("mini.pairs").setup()
 require("mini.surround").setup()
-require("mini.statusline").setup()
 require("mini.pick").setup()
 require("mini.files").setup()
 require("mini.deps").setup({ path = { package = path_package } })
@@ -33,6 +32,15 @@ vim.g.gruvbox_material_background = 'hard'
 vim.g.gruvbox_material_foreground = 'material'
 vim.opt.termguicolors = true
 vim.cmd.colorscheme('gruvbox-material')
+
+-- lspconfig
+add("neovim/nvim-lspconfig")
+local lspconfig = require("lspconfig")
+
+local language_servers = { "clangd", "pyright", "ruff", "cmake" }
+for _, server in ipairs(language_servers) do
+  lspconfig[server].setup{}
+end
 
 -- treesitter
 add({
@@ -50,7 +58,7 @@ require("nvim-treesitter.configs").setup({
 
 -- auto-detect indentation
 add("NMAC427/guess-indent.nvim")
-require("guess-indent").setup{}
+require("guess-indent").setup {}
 
 -- gives :Subvert
 add("tpope/vim-abolish")

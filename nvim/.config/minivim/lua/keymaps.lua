@@ -6,7 +6,7 @@ setmap("n", "<leader>fg", MiniPick.builtin.grep_live)
 
 -- mini.files
 setmap("n", "<leader>o", function()
-  if not MiniFiles.close() then MiniFiles.open() end
+  if not MiniFiles.close() then MiniFiles.open(vim.api.nvim_buf_get_name(0), false) end
 end)
 
 -- window navigation
@@ -27,3 +27,7 @@ end)
 -- pane maximize/restore
 setmap("n", "<leader>m", "<c-w>|")
 setmap("n", "<leader>r", "<c-w>=")
+
+setmap("n", "<leader>b", function() vim.api.nvim_command("make!") end)
+
+setmap("n", "<leader>dv", function() vim.diagnostic.open_float() end)
