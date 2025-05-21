@@ -9,7 +9,7 @@ local function create_reload_autocmd(events, cmd)
 end
 
 vim.api.nvim_create_autocmd('LspAttach', {
-  group = vim.api.nvim_create_augroup('rlwrnc', {}),
+  group = vim.api.nvim_create_augroup('lsp', {}),
   callback = function(ev)
     local opts = { buffer = ev.buf }
     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)

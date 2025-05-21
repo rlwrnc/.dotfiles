@@ -58,7 +58,7 @@ require("nvim-treesitter.configs").setup({
 
 -- auto-detect indentation
 add("NMAC427/guess-indent.nvim")
-require("guess-indent").setup {}
+require("guess-indent").setup({ auto_cmd = true })
 
 -- gives :Subvert
 add("tpope/vim-abolish")

@@ -28,6 +28,16 @@ end)
 setmap("n", "<leader>m", "<c-w>|")
 setmap("n", "<leader>r", "<c-w>=")
 
+-- run makeprg
 setmap("n", "<leader>b", function() vim.api.nvim_command("make!") end)
 
+-- open diagnostics
 setmap("n", "<leader>dv", function() vim.diagnostic.open_float() end)
+
+-- lsp
+setmap("n", "<leader>sb", function() vim.api.nvim_command("LspStart") end)
+setmap("n", "<leader>ss", function() vim.api.nvim_command("LspStop") end)
+setmap("n", "<leader>sr", function() vim.api.nvim_command("LspRestart") end)
+
+-- guess indent
+setmap("n", "<leader>gi", function() vim.api.nvim_command("GuessIndent") end)
