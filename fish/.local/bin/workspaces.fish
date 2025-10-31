@@ -7,7 +7,7 @@ end
 
 set PREFIX $HOME/repos/
 set TMUX_DEFAULT_SESSION repos
-set LOCATION_PATH (find ~/repos -mindepth 1 -maxdepth 1 | fzf)
+set LOCATION_PATH (find ~/repos -mindepth 1 -maxdepth 1 -type d | fzf)
 
 if test $status != 0
     exit 1

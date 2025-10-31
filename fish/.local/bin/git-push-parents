@@ -1,0 +1,4 @@
+#!/usr/bin/fish
+set revs (git rev-list development..HEAD)
+set branches (git name-rev --name-only --exclude="tags/*" $revs | grep -v "~.")
+git push origin $branches $argv
