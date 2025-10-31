@@ -41,3 +41,6 @@ setmap("n", "<leader>sr", function() vim.api.nvim_command("LspRestart") end)
 
 -- guess indent
 setmap("n", "<leader>gi", function() vim.api.nvim_command("GuessIndent") end)
+
+-- git
+setmap("n", "<leader>gd", function() MiniDiff.toggle_overlay() end)

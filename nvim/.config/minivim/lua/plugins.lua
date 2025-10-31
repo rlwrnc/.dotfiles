@@ -13,6 +13,8 @@ if not vim.loop.fs_stat(mini_path) then
 end
 
 require("mini.basics").setup()
+require("mini.icons").setup()
+require("mini.statusline").setup()
 require("mini.comment").setup()
 require("mini.completion").setup()
 require("mini.cursorword").setup()
@@ -22,6 +24,7 @@ require("mini.pairs").setup()
 require("mini.surround").setup()
 require("mini.pick").setup()
 require("mini.files").setup()
+require("mini.diff").setup()
 require("mini.deps").setup({ path = { package = path_package } })
 
 local add = MiniDeps.add
@@ -35,11 +38,9 @@ vim.cmd.colorscheme('gruvbox-material')
 
 -- lspconfig
 add("neovim/nvim-lspconfig")
-local lspconfig = require("lspconfig")
-
 local language_servers = { "clangd", "pyright", "ruff", "cmake" }
 for _, server in ipairs(language_servers) do
-  lspconfig[server].setup{}
+  vim.lsp.enable(server)
 end
 
 -- treesitter
