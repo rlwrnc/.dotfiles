@@ -1,4 +1,12 @@
 #!/usr/bin/fish
-set revs (git rev-list development..HEAD)
+argparse 'b/base=' -- $argv ; or return
+
+if set --query _flag_base
+	set -g base $_flag_base
+else
+	set -g base "development"
+end
+
+set revs (git rev-list $base..HEAD)
 set branches (git name-rev --name-only --exclude="tags/*" $revs | grep -v "~.")
 git push origin $branches $argv
