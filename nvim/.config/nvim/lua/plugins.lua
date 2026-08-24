@@ -38,7 +38,7 @@ for _, server in ipairs(language_servers) do
 end
 
 -- treesitter
-ts_filetypes = {"c", "cpp", "lua", "python"}
+ts_filetypes = {"c", "cpp", "lua", "python", "cmake", "proto"}
 require("nvim-treesitter").install(ts_filetypes)
 vim.api.nvim_create_autocmd("FileType", {
   pattern = ts_filetypes,

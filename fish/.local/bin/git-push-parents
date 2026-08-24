@@ -1,5 +1,5 @@
 #!/usr/bin/fish
-argparse 'b/base=' -- $argv ; or return
+argparse --ignore-unknown 'b/base=' -- $argv ; or return
 
 if set --query _flag_base
 	set -g base $_flag_base

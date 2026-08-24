@@ -1,5 +1,9 @@
 local setmap = vim.keymap.set
 
+function cmd(cmd)
+  return function() vim.api.nvim_command(cmd) end
+end
+
 -- mini.pick
 setmap("n", "<leader>ff", MiniPick.builtin.files)
 setmap("n", "<leader>fg", MiniPick.builtin.grep_live)
@@ -29,18 +33,19 @@ setmap("n", "<leader>m", "<c-w>|")
 setmap("n", "<leader>r", "<c-w>=")
 
 -- run makeprg
-setmap("n", "<leader>b", function() vim.api.nvim_command("make!") end)
+setmap("n", "<leader>b", cmd("make!"))
 
 -- open diagnostics
 setmap("n", "<leader>dv", function() vim.diagnostic.open_float() end)
-
--- lsp
-setmap("n", "<leader>sb", function() vim.api.nvim_command("LspStart") end)
-setmap("n", "<leader>ss", function() vim.api.nvim_command("LspStop") end)
-setmap("n", "<leader>sr", function() vim.api.nvim_command("LspRestart") end)
 
 -- guess indent
 setmap("n", "<leader>gi", function() vim.api.nvim_command("GuessIndent") end)
 
 -- git
 setmap("n", "<leader>gd", function() MiniDiff.toggle_overlay() end)
+
+-- quickfix
+setmap("n", "<leader>co", cmd("copen"))
+setmap("n", "<leader>cc", cmd("cclose"))
+setmap("n", "<leader>cn", cmd("cnext"))
+setmap("n", "<leader>cp", cmd("cprev"))

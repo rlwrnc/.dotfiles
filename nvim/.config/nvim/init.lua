@@ -1,5 +1,6 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
+vim.o.exrc = true
 
 require("options")  -- set vim options
 require("plugins")  -- plugin installation and configuration
