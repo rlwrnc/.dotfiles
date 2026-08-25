@@ -49,3 +49,25 @@ setmap("n", "<leader>co", cmd("copen"))
 setmap("n", "<leader>cc", cmd("cclose"))
 setmap("n", "<leader>cn", cmd("cnext"))
 setmap("n", "<leader>cp", cmd("cprev"))
+
+-- multicursor
+local mc = require("multicursor-nvim")
+setmap({"n", "x"}, "<c-k>", function() mc.lineSkipCursor(-1) end)
+setmap({"n", "x"}, "<c-j>", function() mc.lineSkipCursor(1) end)
+setmap({"n", "x"}, "<leader><c-k>", function() mc.lineAddCursor(-1) end)
+setmap({"n", "x"}, "<leader><c-j>", function() mc.lineAddCursor(1) end)
+
+
+
+mc.addKeymapLayer(function(layerSet)
+  layerSet({"n", "x"}, "<c-h>", mc.prevCursor)
+  layerSet({"n", "x"}, "<c-l>", mc.nextCursor)
+  layerSet({"n", "x"}, "<leader>x", mc.deleteCursor)
+  layerSet({"n"}, "<esc>", function()
+    if not mc.cursorsEnabled() then
+      mc.enableCursor()
+    else
+      mc.clearCursors()
+    end
+  end)
+end)

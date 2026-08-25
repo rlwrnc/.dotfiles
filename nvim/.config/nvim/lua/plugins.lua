@@ -13,6 +13,11 @@ vim.pack.add({
     src = github("nvim-treesitter/nvim-treesitter"),
     version = "main"
   },
+
+  {
+    src = github("jake-stewart/multicursor.nvim"),
+    version = "1.0"
+  }
 })
 
 -- colors
@@ -47,3 +52,6 @@ vim.api.nvim_create_autocmd("FileType", {
 
 -- auto-detect indentation
 require("guess-indent").setup({ auto_cmd = true })
+
+-- multicursor
+require("multicursor-nvim").setup()
