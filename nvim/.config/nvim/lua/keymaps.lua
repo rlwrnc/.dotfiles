@@ -49,3 +49,10 @@ setmap("n", "<leader>co", cmd("copen"))
 setmap("n", "<leader>cc", cmd("cclose"))
 setmap("n", "<leader>cn", cmd("cnext"))
 setmap("n", "<leader>cp", cmd("cprev"))
+
+-- multicursor
+setmap("n", "<c-m>", function()
+  local mc_ns = vim.api.nvim_create_namespace('nvim.multicursor')
+  vim.api.nvim_buf_clear_namespace(0, mc_ns, 0, -1)
+end
+)
